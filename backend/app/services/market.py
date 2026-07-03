@@ -1,90 +1,82 @@
-import yfinance as yf
+from nselib import capital_market
 
 WATCHLIST = {
-    "TCS.NS": "TCS",
-    "HDFCBANK.NS": "HDFC Bank",
-    "RELIANCE.NS": "Reliance",
-    "SBIN.NS": "State Bank of India",
-    "INFY.NS": "Infosys",
+    "TCS": "TCS",
+    "HDFCBANK": "HDFC Bank",
+    "RELIANCE": "Reliance",
+    "SBIN": "State Bank of India",
+    "INFY": "Infosys",
 }
+def to_float(value):
+    return float(str(value).replace(",", "").strip())
 
-
-# --------------------------------------------------------
-# Fetch Quote
-# --------------------------------------------------------
+# -------------------------------------------------------
+# Fetch one NSE stock
+# -------------------------------------------------------
 
 def get_quote(symbol: str):
     try:
+        # Allow symbols like TCS.NS or TCS
+        symbol = symbol.replace(".NS", "")
+        df = capital_market.price_volume_data(
+            symbol=symbol,
+            period="1D",
+        )
 
-        ticker = yf.Ticker(symbol)
-
-        # Last 5 trading days
-        history = ticker.history(period="5d", auto_adjust=False)
-
-        if history.empty:
-            print(f"[Yahoo] No history found for {symbol}")
+        if df.empty:
+            print(f"[NSE] No data for {symbol}")
             return None
 
-        latest_close = float(history["Close"].iloc[-1])
+        latest = df.iloc[0]
 
-        if len(history) >= 2:
-            previous_close = float(history["Close"].iloc[-2])
+        price = to_float(latest["ClosePrice"])
+        prev_close = to_float(latest["PrevClose"])
+
+        if prev_close == 0:
+            change = 0
         else:
-            previous_close = latest_close
+            change = ((price - prev_close) / prev_close) * 100
 
-        change_pct = (
-            ((latest_close - previous_close) / previous_close) * 100
-            if previous_close
-            else 0
-        )
-
-        print(
-            f"[Yahoo] {symbol} -> ₹{latest_close:.2f}"
-        )
+        print(f"[NSE] {symbol} -> ₹{price}")
 
         return {
             "symbol": symbol,
             "name": WATCHLIST.get(symbol, symbol),
-            "price": round(latest_close, 2),
-            "change_pct": round(change_pct, 2),
+            "price": round(price, 2),
+            "change_pct": round(change, 2),
         }
 
     except Exception as e:
-
-        print(f"[Yahoo Error] {symbol}: {e}")
-
+        print(f"[NSE ERROR] {symbol}: {e}")
         return None
 
 
-# --------------------------------------------------------
-# Dashboard
-# --------------------------------------------------------
+# -------------------------------------------------------
+# Dashboard Market Quotes
+# -------------------------------------------------------
 
 def get_market_overview():
-
     quotes = []
 
-    for symbol in WATCHLIST:
+    for symbol in WATCHLIST.keys():
 
         quote = get_quote(symbol)
 
         if quote:
-
             quotes.append(quote)
 
     return quotes
 
 
-# --------------------------------------------------------
-# Portfolio Scheduler
-# --------------------------------------------------------
+# -------------------------------------------------------
+# Portfolio price updater
+# -------------------------------------------------------
 
 def refresh_holding_price(symbol: str):
 
     quote = get_quote(symbol)
 
     if quote:
-
         return quote["price"]
 
     return 0.0

@@ -31,11 +31,11 @@ async def seed_demo_user(session: AsyncSession):
     session.add(user)
 
     demo_holdings = [
-        ("TCS.NS", "Tata Consultancy Services", "IT", 15, 3850),
-        ("HDFCBANK.NS", "HDFC Bank", "Banking", 20, 1580),
-        ("RELIANCE.NS", "Reliance Industries", "Energy", 10, 2450),
-        ("SBIN.NS", "State Bank of India", "Banking", 40, 620),
-    ]
+    ("TCS", "Tata Consultancy Services", "IT", 15, 3850),
+    ("HDFCBANK", "HDFC Bank", "Banking", 20, 1580),
+    ("RELIANCE", "Reliance Industries", "Energy", 10, 2450),
+    ("SBIN", "State Bank of India", "Banking", 40, 620),
+]
 
     for symbol, company, sector, qty, avg in demo_holdings:
 
