@@ -20,13 +20,13 @@ export default function Topbar() {
       transition={{ duration: 0.35 }}
       className="h-20 border-b border-ink-600 bg-ink-900/95 backdrop-blur-xl"
     >
-      <div className="flex h-full items-center justify-between px-8">
+      <div className="flex h-full items-center justify-between px-4 pl-16 md:px-8 md:pl-8">
 
         {/* Left */}
 
         <div>
 
-          <h2 className="font-display text-3xl text-parchment">
+          <h2 className="font-display text-xl md:text-3xl text-parchment">
             Welcome Back, Nakul! 👋
           </h2>
 
@@ -87,7 +87,7 @@ export default function Topbar() {
 
           {/* User */}
 
-          <div className="rounded-2xl border border-ink-600 bg-ink-800 px-5 py-3">
+          <div className="hidden sm:block rounded-2xl border border-ink-600 bg-ink-800 px-5 py-3">
 
             <div className="font-semibold text-parchment">
               Nakul
