@@ -7,14 +7,15 @@ interface SectionCardProps {
   icon?: ReactNode;
   action?: ReactNode;
   children: ReactNode;
+  className?: string;
 }
-
 export default function SectionCard({
-  title,
-  subtitle,
-  icon,
-  action,
-  children,
+    title,
+    subtitle,
+    icon,
+    action,
+    children,
+    className,
 }: SectionCardProps) {
   return (
     <motion.section
@@ -24,7 +25,7 @@ export default function SectionCard({
       transition={{
         duration: 0.2,
       }}
-      className="rounded-3xl border border-zinc-800 bg-zinc-900 p-8 shadow-xl transition-all hover:border-emerald-500/30"
+      className={`rounded-3xl border border-zinc-800 bg-zinc-900 p-8 shadow-xl transition-all hover:border-emerald-500/30 ${className ?? ""}`}
     >
       {/* Header */}
 
