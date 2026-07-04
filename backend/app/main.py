@@ -4,7 +4,7 @@ from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.nlp.news import fetch_news_headlines, analyze_sentiment
-from app.config import get_settings
+from app.config import BASE_DIR, get_settings
 from app.database import get_db, init_db
 from app.llm.factory import get_active_provider_name
 from app.models.schemas import ChatRequest, ChatResponse, HealthResponse, PortfolioSummary
@@ -140,4 +140,15 @@ async def debug_vector():
         "docs_exists": docs_dir.exists(),
         "files": [p.name for p in docs_dir.glob("*")] if docs_dir.exists() else [],
         "document_count": vector_store.document_count(),
+    }
+    
+from pathlib import Path
+
+@app.get("/api/debug/path")
+async def debug_path():
+    return {
+        "cwd": str(Path.cwd()),
+        "main": str(Path(__file__).resolve()),
+        "backend_dir": str(BASE_DIR),
+        "backend_parent": str(BASE_DIR.parent),
     }
