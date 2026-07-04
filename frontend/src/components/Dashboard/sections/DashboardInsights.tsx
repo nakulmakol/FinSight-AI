@@ -1,5 +1,5 @@
 import InsightCard from "../cards/InsightCard";
-import MarketOverview from "./marketoverview";
+import MarketOverview from "./MarketOverview";
 
 export default function DashboardInsights() {
   return (
