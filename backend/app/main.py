@@ -127,3 +127,17 @@ async def mcp_tools():
     from app.mcp.tools import mcp_server
 
     return {"tools": mcp_server.list_tools()}
+from app.config import DATA_DIR
+from app.rag.vectorstore import vector_store
+
+@app.get("/api/debug/vector")
+async def debug_vector():
+    docs_dir = DATA_DIR / "documents"
+
+    return {
+        "data_dir": str(DATA_DIR),
+        "docs_dir": str(docs_dir),
+        "docs_exists": docs_dir.exists(),
+        "files": [p.name for p in docs_dir.glob("*")] if docs_dir.exists() else [],
+        "document_count": vector_store.document_count(),
+    }
