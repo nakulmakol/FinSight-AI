@@ -83,7 +83,7 @@ export default function MarketOverview() {
 
             <div className="flex items-center gap-3">
               <StatusBadge
-                variant={market.positive ? "success" : "danger"}
+                 variant={market.positive ? "green" : "red"}
               >
                 <div className="flex items-center gap-1.5">
                   {market.positive ? (

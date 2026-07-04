@@ -6,7 +6,7 @@ import { sendChat } from "../api/client";
 import type { ChatMessage } from "../types";
 import { AgentPipeline } from "./AgentPipeline";
 import { InsightPanel } from "./InsightPanel";
-import { Copy, RefreshCcw } from "lucide-react";
+import { Copy} from "lucide-react";
 import toast from "react-hot-toast";
 
 const STARTER_PROMPTS = [
