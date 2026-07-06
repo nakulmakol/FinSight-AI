@@ -1,131 +1,360 @@
-# FinSight AI — Intelligent Financial Co-pilot
+# 💹 FinSight AI
 
-Multi-agent financial advisory system with **RAG**, **NLP sentiment**, **risk analysis**, **MCP portfolio tools**, and a **React** dashboard.
+<p align="center">
 
-## Architecture
+<img src="assets/logo.png" width="120"/>
 
-```
-React UI → FastAPI → LangChain Orchestrator
-                         ├── RAG Agent      → Chroma (local, free)
-                         ├── NLP Agent      → RSS news + TextBlob sentiment
-                         ├── Risk Agent     → Portfolio concentration rules
-                         └── Gen AI Agent   → Groq / Gemini (free tier)
-                                    ↑
-                              MCP Tool Server → SQLite portfolio
-```
+### AI-Powered Financial Intelligence Platform
 
-## Quick start
+Portfolio Analytics • Multi-Agent AI • Retrieval-Augmented Generation (RAG) • Real-Time NSE Market Data • Investment Insights
 
-### 1. Backend
+[![Python](https://img.shields.io/badge/Python-3.12-blue.svg)]()
+[![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688.svg)]()
+[![React](https://img.shields.io/badge/React-18-61DAFB.svg)]()
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6.svg)]()
+[![LangChain](https://img.shields.io/badge/LangChain-RAG-success.svg)]()
+[![ChromaDB](https://img.shields.io/badge/ChromaDB-VectorDB-orange.svg)]()
+[![Groq](https://img.shields.io/badge/Groq-LLM-purple.svg)]()
+[![License](https://img.shields.io/badge/License-MIT-green.svg)]()
 
-```powershell
-cd backend
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-copy .env.example .env
-```
-
-Edit `backend/.env` and add **at least one free LLM key** (see below).
-
-```powershell
-uvicorn app.main:app --reload --port 8000
-```
-
-First startup ingests sample RBI/SEBI documents into Chroma and seeds a demo portfolio.
-
-### 2. Frontend
-
-```powershell
-cd frontend
-npm install
-npm run dev
-```
-
-Open **http://localhost:5173**
-
-### 3. Demo query
-
-> *Should I invest in Infosys this month given RBI's latest rate decision?*
+</p>
 
 ---
 
-## Where to put API keys
+## 📌 Overview
 
-**File location:** `backend/.env` (copy from `backend/.env.example`)
+**FinSight AI** is a modern AI-powered financial intelligence platform that combines **real-time market analytics**, **portfolio management**, **Retrieval-Augmented Generation (RAG)**, **multi-agent reasoning**, and **LLM-powered investment analysis** into a unified dashboard.
 
-| Variable | Required? | Where to get it (FREE) | Used for |
-|----------|-----------|------------------------|----------|
-| `GROQ_API_KEY` | Recommended | https://console.groq.com/keys | Primary LLM (Llama 3.3 70B) |
-| `GOOGLE_API_KEY` | Optional fallback | https://aistudio.google.com/apikey | Gemini 2.0 Flash if Groq unavailable |
-| `ALPHA_VANTAGE_API_KEY` | Optional | https://www.alphavantage.co/support/#api-key | Extra market data (not required) |
-
-### Example `.env`
-
-```env
-GROQ_API_KEY=gsk_xxxxxxxxxxxxxxxx
-GOOGLE_API_KEY=
-LLM_PROVIDER=auto
-```
-
-- `LLM_PROVIDER=auto` → uses Groq if key present, else Gemini
-- `LLM_PROVIDER=groq` → force Groq
-- `LLM_PROVIDER=gemini` → force Gemini
-
-### What does NOT need a paid key
-
-| Service | How it works |
-|---------|--------------|
-| Vector DB | **Chroma** — runs locally, free |
-| Embeddings | **sentence-transformers** — downloads once, runs locally |
-| Market prices | **yfinance** — no API key |
-| News | **RSS feeds** (Mint, ET, NDTV Profit) — no API key |
-| Sentiment | **TextBlob** — local, free |
-| Portfolio DB | **SQLite** — local, free |
+Unlike traditional finance dashboards, FinSight AI doesn't just display portfolio data—it explains **why** market events matter, analyzes your investments using AI, and provides context-aware financial insights.
 
 ---
 
-## Project structure
+# 🚀 Live Demo
 
+### 🌐 Frontend
+
+https://YOUR-VERCEL-URL.vercel.app
+
+### ⚡ Backend API
+
+https://finsight-ai-production-4f97.up.railway.app
+
+---
+
+# ✨ Features
+
+## 📈 Portfolio Management
+
+- Live Portfolio Dashboard
+- Portfolio Valuation
+- Profit & Loss Calculation
+- Sector Allocation
+- Portfolio Distribution Charts
+- Risk Metrics
+
+---
+
+## 🤖 AI Financial Copilot
+
+- Conversational AI Assistant
+- Portfolio-aware Responses
+- Investment Recommendations
+- Financial Question Answering
+- Explainable AI Responses
+
+---
+
+## 📰 Market Intelligence
+
+- Real-Time NSE Stock Prices
+- Market Overview
+- Financial News
+- News Sentiment Analysis
+- Live Market Updates
+
+---
+
+## 🧠 Retrieval-Augmented Generation (RAG)
+
+- RBI Circulars
+- SEBI Guidelines
+- Vector Search
+- Semantic Search
+- Context-Aware Responses
+
+---
+
+## ⚙ Multi-Agent AI
+
+- Portfolio Agent
+- News Agent
+- Risk Analysis Agent
+- RAG Agent
+- Orchestrator Agent
+
+---
+
+## 📊 Analytics
+
+- Portfolio Growth
+- Allocation Charts
+- P/L Visualization
+- Performance Metrics
+
+---
+
+# 🖥 Screenshots
+
+## Dashboard
+
+<img width="2866" height="1554" alt="image" src="https://github.com/user-attachments/assets/39c2680a-8dfb-4d5b-8ae7-8e8e60808a8f" />
+
+
+---
+
+## Portfolio
+
+<img width="2862" height="1550" alt="image" src="https://github.com/user-attachments/assets/2838dfab-fe61-4674-a031-59f3d2751396" />
+
+---
+
+## AI Copilot
+
+<img width="2864" height="1542" alt="image" src="https://github.com/user-attachments/assets/2eccc8b0-bee2-47de-a310-afa89e5c8dc9" />
+
+
+---
+
+## Analytics
+
+<img width="2860" height="1546" alt="image" src="https://github.com/user-attachments/assets/65823f73-be9e-41ae-8a08-2e80fd821ea6" />
+
+
+---
+
+## News
+
+<img width="2862" height="1546" alt="image" src="https://github.com/user-attachments/assets/fbf0545b-23ea-43e2-9758-e2aea296fe90" />
+
+
+---
+
+## Settings
+
+<img width="2400" height="1528" alt="image" src="https://github.com/user-attachments/assets/a07f38c8-cbf3-4fc6-bb33-8d5ec7eae8c9" />
+
+
+---
+
+# 🏗 Architecture
+
+```text
+                          +----------------------+
+                          |   React + Vite UI    |
+                          +----------+-----------+
+                                     |
+                               REST API
+                                     |
+                                     ▼
+                      +------------------------------+
+                      |      FastAPI Backend         |
+                      +------------------------------+
+                          │        │         │
+          ┌───────────────┘        │         └───────────────┐
+          ▼                        ▼                         ▼
+ Portfolio Service        Market Service          AI Orchestrator
+          │                        │                         │
+          ▼                        ▼                         ▼
+ SQLite Database          NSE Live Data          LangChain Agents
+                                                    │
+                                   ┌────────────────┴──────────────┐
+                                   ▼                               ▼
+                             ChromaDB                     Groq LLM
+                             (RAG)                   (Llama 3.3 70B)
 ```
-FinSight AI/
-├── backend/
-│   ├── .env.example          ← copy to .env and add keys here
-│   ├── app/
-│   │   ├── main.py           ← FastAPI entry
-│   │   ├── orchestrator/     ← LangChain router
-│   │   ├── agents/           ← RAG, NLP, Risk, Gen AI
-│   │   ├── rag/              ← Chroma vector store
-│   │   ├── nlp/              ← News + sentiment
-│   │   ├── risk/             ← Portfolio risk rules
-│   │   ├── mcp/              ← Portfolio tool bridge
-│   │   └── services/         ← Market + portfolio
-│   └── requirements.txt
-├── frontend/                 ← React + Vite + Tailwind
-├── data/documents/           ← Sample RBI/SEBI docs for RAG
+
+---
+
+# 🛠 Tech Stack
+
+## Frontend
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Framer Motion
+- TanStack Query
+- Recharts
+- Lucide React
+
+---
+
+## Backend
+
+- FastAPI
+- SQLAlchemy
+- SQLite
+- LangChain
+- ChromaDB
+- HuggingFace Embeddings
+- Groq API
+
+---
+
+## AI Stack
+
+- Multi-Agent Architecture
+- Retrieval-Augmented Generation
+- Semantic Search
+- Sentiment Analysis
+- Portfolio Context Engine
+
+---
+
+## Deployment
+
+- Railway (Backend)
+- Vercel (Frontend)
+
+---
+
+# 📂 Project Structure
+
+```text
+FinSight-AI
+│
+├── backend
+│   ├── app
+│   │   ├── agents
+│   │   ├── orchestrator
+│   │   ├── rag
+│   │   ├── services
+│   │   ├── models
+│   │   ├── database.py
+│   │   └── main.py
+│   │
+│   ├── data
+│   │   └── documents
+│   │
+│   ├── requirements.txt
+│   └── .env.example
+│
+├── frontend
+│   ├── src
+│   ├── public
+│   ├── package.json
+│   └── vite.config.ts
+│
 └── README.md
 ```
 
 ---
 
-## API endpoints
+# ⚙ Installation
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/api/health` | Backend + LLM status |
-| GET | `/api/portfolio` | Demo user portfolio |
-| GET | `/api/market` | Live market quotes (yfinance) |
-| POST | `/api/chat` | Full multi-agent pipeline |
-| GET | `/api/mcp/tools` | MCP tool listing |
+## Clone
 
----
+```bash
+git clone https://github.com/YOUR_USERNAME/FinSight-AI.git
+```
 
-## Adding your own documents
-
-Drop `.txt` or `.md` files into `data/documents/`, then delete `backend/chroma_data/` and restart the backend to re-ingest.
+```bash
+cd FinSight-AI
+```
 
 ---
 
-## Disclaimer
+## Backend
 
-FinSight AI provides **educational guidance only**. It is not registered investment advice. Always do your own research before investing.
+```bash
+cd backend
+```
+
+```bash
+python -m venv venv
+```
+
+```bash
+pip install -r requirements.txt
+```
+
+Create
+
+```text
+.env
+```
+
+```env
+GROQ_API_KEY=your_key
+DATABASE_URL=sqlite:///finsight.db
+```
+
+Run
+
+```bash
+uvicorn app.main:app --reload
+```
+
+---
+
+## Frontend
+
+```bash
+cd frontend
+```
+
+```bash
+npm install
+```
+
+```bash
+npm run dev
+```
+
+---
+
+# 🔥 Future Improvements
+
+- User Authentication
+- Portfolio Import (CSV)
+- Watchlists
+- Price Alerts
+- AI Portfolio Rebalancing
+- Company Comparison
+- Earnings Summaries
+- PDF Report Generation
+
+---
+
+# 🎯 Why FinSight AI?
+
+Traditional investment dashboards only visualize data.
+
+FinSight AI combines:
+
+- Portfolio Analytics
+- AI Reasoning
+- Retrieval-Augmented Generation
+- Financial News
+- Regulatory Knowledge
+- Real-Time Market Data
+
+to create an intelligent financial assistant capable of providing explainable investment insights.
+
+---
+
+# 👨‍💻 Author
+
+**Nakul Makol**
+
+AI & Machine Learning Engineer
+
+- GitHub: **https://github.com/nakulmakol**
+- LinkedIn: **https://www.linkedin.com/in/nakul-makol-b3abb6310/**
+
+---
+
+# ⭐ Support
+
+If you found this project useful, consider giving it a ⭐ on GitHub!
