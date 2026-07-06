@@ -2,8 +2,6 @@
 
 <p align="center">
 
-<img src="assets/logo.png" width="120"/>
-
 ### AI-Powered Financial Intelligence Platform
 
 Portfolio Analytics • Multi-Agent AI • Retrieval-Augmented Generation (RAG) • Real-Time NSE Market Data • Investment Insights
