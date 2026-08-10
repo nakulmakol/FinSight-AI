@@ -4,9 +4,10 @@ import type {
   PortfolioSummary,
 } from "../types";
 
-const API_BASE = "/api";
+const API_BASE =
+  import.meta.env.VITE_API_BASE_URL || "/api";
 
-interface NewsHeadline {
+  interface NewsHeadline {
   title: string;
   summary: string;
 }
