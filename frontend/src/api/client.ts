@@ -5,8 +5,8 @@ import type {
 } from "../types";
 
 const API_BASE =
-  import.meta.env.VITE_API_BASE_URL || "/api";
-
+  "https://finsight-ai-production-4f97.up.railway.app/api";
+  
   interface NewsHeadline {
   title: string;
   summary: string;
