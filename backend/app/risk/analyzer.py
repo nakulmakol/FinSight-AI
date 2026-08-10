@@ -59,9 +59,22 @@ def analyze_portfolio_risk(
     if sentiment_label == "negative":
         flags.append("Recent news sentiment is negative — consider waiting for clarity.")
 
+    total_invested = sum(h.get("avg_price", 0) * h.get("quantity", 0) for h in holdings)
+    overall_pnl_pct = (
+        ((total_value - total_invested) / total_invested) * 100 if total_invested else 0.0
+    )
+    if overall_pnl_pct <= -20:
+        flags.append(f"Portfolio is down {overall_pnl_pct:.1f}% overall — significant drawdown.")
+    elif overall_pnl_pct <= -10:
+        flags.append(f"Portfolio is down {overall_pnl_pct:.1f}% overall — notable drawdown.")
+
     health = 82.0
     health -= len(warnings) * 8
     health -= len(flags) * 5
+    if overall_pnl_pct <= -20:
+        health -= 25
+    elif overall_pnl_pct <= -10:
+        health -= 12
     health = max(20.0, min(95.0, health))
 
     if health >= 70:
