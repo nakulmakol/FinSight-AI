@@ -87,3 +87,8 @@ class HealthResponse(BaseModel):
     llm_provider: str
     vector_documents: int
     message: str
+    
+class ChatRequest(BaseModel):
+    message: str = Field(..., min_length=1, max_length=2000)
+    user_id: str | None = None
+    history: list[dict] | None = None

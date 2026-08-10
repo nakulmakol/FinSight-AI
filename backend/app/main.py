@@ -115,7 +115,12 @@ async def news(
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat(payload: ChatRequest, session: AsyncSession = Depends(get_db)):
     try:
-        return await orchestrator.process(payload.message, session, payload.user_id)
+        return await orchestrator.process(
+            payload.message,
+            session,
+            payload.user_id,
+            history=getattr(payload, "history", None),
+        )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except Exception as exc:

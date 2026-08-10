@@ -1,4 +1,3 @@
-import json
 import re
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -12,17 +11,31 @@ from app.mcp.tools import mcp_server
 from app.models.schemas import AgentTrace, ChatResponse
 from app.services.portfolio import get_portfolio_summary
 
-# Small talk / greetings that don't need the full financial-analysis pipeline.
-_SMALL_TALK_PATTERN = re.compile(
-    r"^(hi|hii+|hey+|hello+|yo|sup|good\s?(morning|afternoon|evening)|thanks?|thank\s?you|ok(ay)?|bye|goodbye)[\s!.?]*$",
+_FINANCE_KEYWORDS = re.compile(
+    r"\b(stock|share|invest|portfolio|market|rbi|sebi|sector|risk|return|"
+    r"buy|sell|price|nifty|sensex|mutual\s?fund|bond|equity|ipo|dividend|"
+    r"tcs|infosys|hdfc|reliance|sbin?|bank(ing)?)\b",
     re.IGNORECASE,
 )
 
-_SMALL_TALK_REPLY = (
-    "Hey! 👋 I'm FinSight AI, your financial co-pilot. Ask me about a stock, "
-    "RBI/SEBI policy, market sentiment, or your own portfolio — for example, "
-    "\"Is my portfolio too concentrated in banking?\" or \"Should I add to my TCS position?\""
+_CONVERSATIONAL_PATTERN = re.compile(
+    r"^(hi|hii+|hey+|hello+|yo|sup|good\s?(morning|afternoon|evening)|"
+    r"thanks?|thank\s?you|ok(ay)?|bye|goodbye|how\s+are\s+you\??|"
+    r"what('?s| is| do you| can you)\s.*|who\s+are\s+you\??)"
+    r"[\s!.?]*$",
+    re.IGNORECASE,
 )
+
+
+def _is_small_talk(query: str) -> bool:
+    q = query.strip()
+    if not q:
+        return True
+    if _FINANCE_KEYWORDS.search(q):
+        return False
+    if _CONVERSATIONAL_PATTERN.match(q):
+        return True
+    return len(q.split()) <= 4 and not _FINANCE_KEYWORDS.search(q)
 
 
 class LangChainOrchestrator:
@@ -34,14 +47,20 @@ class LangChainOrchestrator:
         self.risk_agent = RiskAgent()
         self.gen_agent = GenAIAgent()
 
-    async def process(self, query: str, session: AsyncSession, user_id: str | None = None) -> ChatResponse:
+    async def process(
+        self,
+        query: str,
+        session: AsyncSession,
+        user_id: str | None = None,
+        history: list[dict] | None = None,
+    ) -> ChatResponse:
         settings = get_settings()
         uid = user_id or settings.default_user_id
+        history = history or []
         trace = []
 
-        # Short-circuit greetings/small talk — no need to run RAG, sentiment,
-        # portfolio and risk analysis just to say "hi" back.
-        if _SMALL_TALK_PATTERN.match(query.strip()):
+        if _is_small_talk(query):
+            reply, gen_trace = await self.gen_agent.run_lightweight(query, history=history)
             trace.append(
                 AgentTrace(
                     agent="Router",
@@ -49,8 +68,9 @@ class LangChainOrchestrator:
                     summary="Detected small talk — skipped full analysis pipeline.",
                 )
             )
+            trace.append(gen_trace)
             return ChatResponse(
-                answer=_SMALL_TALK_REPLY,
+                answer=reply,
                 citations=[],
                 sentiment=None,
                 risk=None,
@@ -86,6 +106,7 @@ class LangChainOrchestrator:
             risk=risk,
             portfolio=portfolio_insight,
             user_risk_tolerance=portfolio_summary.risk_tolerance,
+            history=history,
         )
         trace.append(gen_trace)
 
