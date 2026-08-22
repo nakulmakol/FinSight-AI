@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     groq_api_key: str = ""
     google_api_key: str = ""
     llm_provider: str = "auto"
-    groq_model: str = "llama-3.3-70b-versatile"
+    groq_model: str = "openai/gpt-oss-120b"
     gemini_model: str = "gemini-2.0-flash"
     twelve_data_api_key: str = ""
     alpha_vantage_api_key: str = ""
