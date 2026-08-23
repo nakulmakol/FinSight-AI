@@ -39,6 +39,7 @@ def get_llm() -> BaseChatModel:
             model=settings.gemini_model,
             google_api_key=settings.google_api_key,
             temperature=0.2,
+            max_tokens=1200,
         )
 
     raise ValueError(f"Unsupported LLM provider: {provider}")
